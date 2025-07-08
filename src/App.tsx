@@ -195,6 +195,144 @@ function App() {
     }
   };
 
+  const renderAboutUsPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="h-6 w-6 text-gray-600" />
+              </button>
+              <div className="text-2xl font-bold text-cyan-500">Graps Running</div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <Heart className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+              <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* About Us Content */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center mb-6">
+              <Bot className="h-16 w-16 text-cyan-500 mr-4" />
+              <h1 className="text-5xl font-bold text-gray-900">About Us</h1>
+            </div>
+            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-3xl p-8 mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Welcome to Graps Running, ready to start your change with us?! 👍
+              </h2>
+            </div>
+          </div>
+
+          {/* Who We Are Section */}
+          <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
+            <div className="flex items-center mb-6">
+              <Users className="h-8 w-8 text-cyan-500 mr-4" />
+              <h3 className="text-2xl font-bold text-gray-900">Who We Are?</h3>
+            </div>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Graps Running is a revolutionary project focused on physical and mental well-being through sports and AI, 
+              built on our deep knowledge of running and cutting-edge technology. We believe in creating something new 
+              and different that will transform your training experience in a dynamic, personalized way. Our mission is 
+              to bridge the gap between traditional training and the future of AI-powered fitness coaching.
+            </p>
+          </div>
+
+          {/* Our Goal Section */}
+          <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
+            <div className="flex items-center mb-6">
+              <Target className="h-8 w-8 text-blue-500 mr-4" />
+              <h3 className="text-2xl font-bold text-gray-900">What Is Our Goal?</h3>
+            </div>
+            <div className="space-y-6">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                At Graps Running, our goal is to help you achieve your perfect transformation and see life differently 
+                through sports. Through our personalized AI chatbot, Coach Mike, we'll help you start your training routine 
+                and begin seeing life in a more positive, energized way.
+              </p>
+              
+              <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6">
+                <h4 className="text-xl font-semibold text-gray-900 mb-4">We Can Help You With:</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center">
+                    <Zap className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Physical transformation</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Trophy className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Race preparation</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Activity className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Improving running form</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Play className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Starting a sport routine</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Heart className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Nutrition guidance</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Star className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Personal best improvement</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Thermometer className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Injury rehabilitation</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Brain className="h-5 w-5 text-cyan-500 mr-3" />
+                    <span className="text-gray-700">Mental wellness</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p className="text-lg text-gray-700 leading-relaxed">
+                We want your experience with us to be effective, transformative, and tailored specifically to your needs. 
+                You can choose exactly what you need, and our AI will adapt to help you succeed.
+              </p>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="bg-gradient-to-r from-cyan-600 to-blue-600 rounded-3xl p-12 text-center text-white">
+            <h3 className="text-3xl font-bold mb-4">ARE YOU READY?!</h3>
+            <div className="flex items-center justify-center mb-6">
+              <Bot className="h-12 w-12 text-white mr-4" />
+              <span className="text-2xl font-semibold">WE ARE READY TO HELP YOU 🏃</span>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-white text-cyan-600 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                <Brain className="h-5 w-5 mr-2" />
+                Start with AI Coach Mike
+              </button>
+              <button 
+                onClick={() => setCurrentPage('best-spots')}
+                className="border-2 border-white text-white hover:bg-white hover:text-cyan-600 px-8 py-4 rounded-full font-semibold text-lg transition-all flex items-center justify-center"
+              >
+                <MapPin className="h-5 w-5 mr-2" />
+                Explore Best Spots
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
   const renderBestSpotsPage = () => (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -385,7 +523,12 @@ function App() {
                 Best Spots
               </button>
               <a href="#events" className="text-gray-900 hover:text-cyan-500 font-medium transition-colors">Upcoming Events</a>
-              <a href="#about" className="text-gray-900 hover:text-cyan-500 font-medium transition-colors">About Us</a>
+              <button 
+                onClick={() => setCurrentPage('about')}
+                className="text-gray-900 hover:text-cyan-500 font-medium transition-colors"
+              >
+                About Us
+              </button>
               <a href="#chat" className="text-gray-900 hover:text-cyan-500 font-medium transition-colors flex items-center">
                 <Bot className="h-4 w-4 mr-1" />
                 AI Coach Mike
@@ -421,7 +564,15 @@ function App() {
                 Best Spots
               </button>
               <a href="#events" className="block py-2 text-gray-900 hover:text-cyan-500">Upcoming Events</a>
-              <a href="#about" className="block py-2 text-gray-900 hover:text-cyan-500">About Us</a>
+              <button 
+                onClick={() => {
+                  setCurrentPage('about');
+                  setIsMenuOpen(false);
+                }}
+                className="block py-2 text-gray-900 hover:text-cyan-500 w-full text-left"
+              >
+                About Us
+              </button>
               <a href="#chat" className="block py-2 text-gray-900 hover:text-cyan-500 flex items-center">
                 <Bot className="h-4 w-4 mr-1" />
                 AI Coach Mike
@@ -684,6 +835,10 @@ function App() {
       </footer>
     </div>
   );
+
+  if (currentPage === 'about') {
+    return renderAboutUsPage();
+  }
 
   if (currentPage === 'best-spots') {
     return renderBestSpotsPage();
