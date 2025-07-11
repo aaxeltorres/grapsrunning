@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Menu, 
   X, 
-  Heart, 
+  Star,
   User, 
   MapPin, 
   Calendar, 
@@ -20,13 +20,18 @@ import {
   Cpu,
   Navigation,
   Clock,
-  Star,
   Thermometer,
   Wind,
   Mountain,
   Trees,
   Building,
-  ArrowLeft
+  ArrowLeft,
+  Mail,
+  Lock,
+  UserPlus,
+  Eye,
+  EyeOff,
+  Chrome
 } from 'lucide-react';
 
 interface RunningSpot {
@@ -47,6 +52,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [userLocation, setUserLocation] = useState('New York');
   const [selectedCity, setSelectedCity] = useState('New York');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Mock data for different cities
   const citySpots: Record<string, RunningSpot[]> = {
@@ -195,6 +202,478 @@ function App() {
     }
   };
 
+  const renderReviewsPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="h-6 w-6 text-gray-600" />
+              </button>
+              <div className="text-2xl font-bold text-cyan-500">Graps Running</div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
+              <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Reviews Content */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center mb-6">
+              <h1 className="text-5xl font-bold text-gray-900">Share Us Your Experience</h1>
+            </div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Share your experience with Graps Running and AI Coach Mike
+            </p>
+          </div>
+
+          {/* Write Review Section */}
+          <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Write a Review</h3>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                <div className="flex space-x-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star key={star} className="h-8 w-8 text-yellow-400 cursor-pointer hover:text-yellow-500" />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Your Review</label>
+                <textarea 
+                  className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  rows={4}
+                  placeholder="Share your experience with AI Coach Mike and Graps Running..."
+                />
+              </div>
+              <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                Submit Review
+              </button>
+            </div>
+          </div>
+
+          {/* Sample Reviews */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <div className="bg-cyan-500 w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold">
+                    M
+                  </div>
+                  <div className="ml-3">
+                    <h4 className="font-semibold text-gray-900">Maria Rodriguez</h4>
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className="h-4 w-4 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <span className="text-sm text-gray-500">2 days ago</span>
+              </div>
+              <p className="text-gray-700">
+                "AI Coach Mike has completely transformed my running routine! The personalized training plans are incredible, 
+                and the real-time feedback during runs keeps me motivated. Best running app I've ever used!"
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <div className="bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold">
+                    J
+                  </div>
+                  <div className="ml-3">
+                    <h4 className="font-semibold text-gray-900">John Smith</h4>
+                    <div className="flex">
+                      {[1, 2, 3, 4].map((star) => (
+                        <Star key={star} className="h-4 w-4 text-yellow-400 fill-current" />
+                      ))}
+                      <Star className="h-4 w-4 text-gray-300" />
+                    </div>
+                  </div>
+                </div>
+                <span className="text-sm text-gray-500">1 week ago</span>
+              </div>
+              <p className="text-gray-700">
+                "Great app with amazing AI features. The route recommendations are spot on, and I love how Mike adapts 
+                to my progress. Only wish there were more social features to connect with other runners."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
+  const renderEventsPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="h-6 w-6 text-gray-600" />
+              </button>
+              <div className="text-2xl font-bold text-cyan-500">Graps Running</div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
+              <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Events Content */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-12">
+            <div className="flex items-center justify-center mb-6">
+              <Calendar className="h-12 w-12 text-cyan-500 mr-4" />
+              <h1 className="text-5xl font-bold text-gray-900">Upcoming Events</h1>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-lg p-16">
+            <div className="flex items-center justify-center mb-8">
+              <Bot className="h-16 w-16 text-cyan-500" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Coming Soon!</h2>
+            <p className="text-xl text-gray-600 mb-8">
+              We're working with AI Coach Mike to organize amazing running events for our community.
+            </p>
+            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-8">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">No events available yet</h3>
+              <p className="text-gray-700 mb-6">
+                Stay tuned! We'll be announcing exciting running events, AI-powered challenges, 
+                and community meetups very soon.
+              </p>
+              <button className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-full font-semibold transition-colors">
+                Notify Me When Events Are Available
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
+  const renderJoinUsPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="h-6 w-6 text-gray-600" />
+              </button>
+              <div className="text-2xl font-bold text-cyan-500">Graps Running</div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
+              <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Join Us Content */}
+      <section className="py-20">
+        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center mb-6">
+              <UserPlus className="h-12 w-12 text-cyan-500 mr-4" />
+              <h1 className="text-4xl font-bold text-gray-900">Join Us</h1>
+            </div>
+            <p className="text-lg text-gray-600">
+              Create your account and start training with AI Coach Mike
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-lg p-8">
+            {/* Social Sign Up */}
+            <div className="space-y-4 mb-6">
+              <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Chrome className="h-5 w-5 mr-3" />
+                Continue with Google
+              </button>
+              <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Mail className="h-5 w-5 mr-3" />
+                Continue with Email
+              </button>
+            </div>
+
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or create account with email</span>
+              </div>
+            </div>
+
+            {/* Email Sign Up Form */}
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  placeholder="Enter your full name"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  placeholder="Enter your email"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent pr-12"
+                    placeholder="Create a password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent pr-12"
+                    placeholder="Confirm your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                />
+                <label className="ml-2 block text-sm text-gray-700">
+                  I agree to the <a href="#" className="text-cyan-600 hover:text-cyan-500">Terms of Service</a> and <a href="#" className="text-cyan-600 hover:text-cyan-500">Privacy Policy</a>
+                </label>
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+              >
+                Create Account
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Already have an account?{' '}
+                <button
+                  onClick={() => setCurrentPage('signin')}
+                  className="text-cyan-600 hover:text-cyan-500 font-medium"
+                >
+                  Sign In
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
+  const renderSignInPage = () => (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <button
+                onClick={() => setCurrentPage('home')}
+                className="mr-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="h-6 w-6 text-gray-600" />
+              </button>
+              <div className="text-2xl font-bold text-cyan-500">Graps Running</div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
+              <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Sign In Content */}
+      <section className="py-20">
+        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center mb-6">
+              <Lock className="h-12 w-12 text-cyan-500 mr-4" />
+              <h1 className="text-4xl font-bold text-gray-900">Sign In</h1>
+            </div>
+            <p className="text-lg text-gray-600">
+              Welcome back! Continue your journey with AI Coach Mike
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-lg p-8">
+            {/* Social Sign In */}
+            <div className="space-y-4 mb-6">
+              <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Chrome className="h-5 w-5 mr-3" />
+                Continue with Google
+              </button>
+              <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Mail className="h-5 w-5 mr-3" />
+                Continue with Email
+              </button>
+            </div>
+
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or sign in with email</span>
+              </div>
+            </div>
+
+            {/* Email Sign In Form */}
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  placeholder="Enter your email"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent pr-12"
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 block text-sm text-gray-700">
+                    Remember me
+                  </label>
+                </div>
+                <a href="#" className="text-sm text-cyan-600 hover:text-cyan-500">
+                  Forgot password?
+                </a>
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+              >
+                Sign In
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Don't have an account?{' '}
+                <button
+                  onClick={() => setCurrentPage('joinus')}
+                  className="text-cyan-600 hover:text-cyan-500 font-medium"
+                >
+                  Join Us
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
   const renderAboutUsPage = () => (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -212,7 +691,12 @@ function App() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Heart className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
               <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
             </div>
           </div>
@@ -230,7 +714,7 @@ function App() {
             </div>
             <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-3xl p-8 mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Welcome to Graps Running, ready to start your change with us?! 👍
+                Welcome to Graps Running, ready to start your change with us?
               </h2>
             </div>
           </div>
@@ -244,7 +728,7 @@ function App() {
             <p className="text-lg text-gray-700 leading-relaxed">
               Graps Running is a revolutionary project focused on physical and mental well-being through sports and AI, 
               built on our deep knowledge of running and cutting-edge technology. We believe in creating something new 
-              and different that will transform your training experience in a dynamic, personalized way. Our mission is 
+              and different that will transform your sports experience in a dynamic, personalized way. Our mission is 
               to bridge the gap between traditional training and the future of AI-powered fitness coaching.
             </p>
           </div>
@@ -258,7 +742,7 @@ function App() {
             <div className="space-y-6">
               <p className="text-lg text-gray-700 leading-relaxed">
                 At Graps Running, our goal is to help you achieve your perfect transformation and see life differently 
-                through sports. Through our personalized AI chatbot, Coach Mike, we'll help you start your training routine 
+                through sports. Through our personalized AI chatbot, Coach Mike, we'll help you start your sports routine 
                 and begin seeing life in a more positive, energized way.
               </p>
               
@@ -282,7 +766,7 @@ function App() {
                     <span className="text-gray-700">Starting a sport routine</span>
                   </div>
                   <div className="flex items-center">
-                    <Heart className="h-5 w-5 text-cyan-500 mr-3" />
+                    <Star className="h-5 w-5 text-cyan-500 mr-3" />
                     <span className="text-gray-700">Nutrition guidance</span>
                   </div>
                   <div className="flex items-center">
@@ -350,7 +834,12 @@ function App() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Heart className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
               <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
             </div>
           </div>
@@ -500,8 +989,18 @@ function App() {
               </div>
               <div className="hidden md:flex items-center space-x-6 text-sm">
                 <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Help</a>
-                <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Join Us</a>
-                <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Sign In</a>
+                <button 
+                  onClick={() => setCurrentPage('joinus')}
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Join Us
+                </button>
+                <button 
+                  onClick={() => setCurrentPage('signin')}
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Sign In
+                </button>
               </div>
             </div>
           </div>
@@ -522,7 +1021,12 @@ function App() {
               >
                 Best Spots
               </button>
-              <a href="#events" className="text-gray-900 hover:text-cyan-500 font-medium transition-colors">Upcoming Events</a>
+              <button 
+                onClick={() => setCurrentPage('events')}
+                className="text-gray-900 hover:text-cyan-500 font-medium transition-colors"
+              >
+                Upcoming Events
+              </button>
               <button 
                 onClick={() => setCurrentPage('about')}
                 className="text-gray-900 hover:text-cyan-500 font-medium transition-colors"
@@ -536,7 +1040,12 @@ function App() {
             </nav>
 
             <div className="flex items-center space-x-4">
-              <Heart className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
+              <button
+                onClick={() => setCurrentPage('reviews')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <Star className="h-6 w-6 text-yellow-500" />
+              </button>
               <User className="h-6 w-6 text-gray-600 hover:text-cyan-500 cursor-pointer transition-colors" />
               
               {/* Mobile menu button */}
@@ -563,7 +1072,15 @@ function App() {
               >
                 Best Spots
               </button>
-              <a href="#events" className="block py-2 text-gray-900 hover:text-cyan-500">Upcoming Events</a>
+              <button 
+                onClick={() => {
+                  setCurrentPage('events');
+                  setIsMenuOpen(false);
+                }}
+                className="block py-2 text-gray-900 hover:text-cyan-500 w-full text-left"
+              >
+                Upcoming Events
+              </button>
               <button 
                 onClick={() => {
                   setCurrentPage('about');
@@ -622,9 +1139,6 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Your AI-Powered Running Companion</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Meet Mike, your personal AI coach that adapts to your style, goals, and progress
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -835,6 +1349,22 @@ function App() {
       </footer>
     </div>
   );
+
+  if (currentPage === 'reviews') {
+    return renderReviewsPage();
+  }
+
+  if (currentPage === 'events') {
+    return renderEventsPage();
+  }
+
+  if (currentPage === 'joinus') {
+    return renderJoinUsPage();
+  }
+
+  if (currentPage === 'signin') {
+    return renderSignInPage();
+  }
 
   if (currentPage === 'about') {
     return renderAboutUsPage();
