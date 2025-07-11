@@ -25,10 +25,12 @@ const AiMikePage: React.FC = () => {
         </div>
       </header>
 
-      {/* Chatbot ocupando todo */}
+      {/* Chatbot ocupando todo el resto de la pantalla */}
       <section className="flex-grow">
-        <div className="w-full h-full min-h-[calc(100vh-4rem)]">
-          <AiMikeWidget />
+        <div className="relative w-full h-[calc(100vh-4rem)]">
+          <div className="absolute inset-0">
+            <AiMikeWidget />
+          </div>
         </div>
       </section>
     </div>
