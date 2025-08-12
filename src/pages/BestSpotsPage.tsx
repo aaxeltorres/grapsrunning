@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, Star, User, MapPin, Bot, Target, Mountain, Clock } from 'lucide-react';
 import { RunningSpot } from '../types/RunningSpot';
 import { citySpots, cities } from '../data/citySpots';
-import SpotCard from "../components/Spots/SpotCard";
+import SpotCard from "../components/spots/SpotCard";
 import { useNavigate } from 'react-router-dom';
 
 const BestSpotsPage: React.FC = () => {
