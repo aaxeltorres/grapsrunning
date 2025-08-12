@@ -36,7 +36,7 @@ function App() {
   const [errorTriggered, setErrorTriggered] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/ping", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/ping`, {
       credentials: "include",
     })
       .then(res => res.json())
