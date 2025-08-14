@@ -1,12 +1,37 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
 
 const VerifyPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { token } = useParams<{ token: string }>();
 
   const isSuccess = location.pathname.includes("success");
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      // Solo llamamos al backend si la URL tiene un token (no estamos ya en /success o /error)
+      if (token) {
+        try {
+          const res = await fetch(
+            `https://grapsrunning-backend-production.up.railway.app/api/users/verify/${token}`
+          );
+
+          if (res.ok) {
+            navigate("/verify/success");
+          } else {
+            navigate("/verify/error");
+          }
+        } catch (error) {
+          console.error("Error verifying token:", error);
+          navigate("/verify/error");
+        }
+      }
+    };
+
+    verifyToken();
+  }, [token, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100">
