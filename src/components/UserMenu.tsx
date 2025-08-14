@@ -14,7 +14,7 @@ export default function UserMenu() {
     const token = localStorage.getItem("token");
 
     if (token) {
-      fetch("http://localhost:5000/api/users/profile", {
+      fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function UserMenu() {
 
     if (token) {
       try {
-        await fetch("http://localhost:5000/api/users/logout", {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/users/logout`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
