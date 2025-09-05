@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const registerUser = async (formData: {
   name: string;
-  lastname: string;
+  lastname?: string;
   email: string;
   password: string;
   phone?: string;
@@ -24,7 +24,8 @@ export const registerUser = async (formData: {
     throw new Error(data.msg || "Error registering user");
   }
 
-  return data;
+  // ✅ Ahora devolvemos también el status
+  return { status: response.status, ...data };
 };
 
 export const loginUser = async (formData: {
@@ -43,5 +44,5 @@ export const loginUser = async (formData: {
     throw new Error(data.msg || "Error logging in");
   }
 
-  return data;
+  return { status: response.status, ...data };
 };
