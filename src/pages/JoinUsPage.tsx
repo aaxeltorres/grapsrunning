@@ -55,14 +55,15 @@ const JoinUsPage: React.FC = () => {
         setPassword('');
         setConfirmPassword('');
 
-        // Espera 2 segundos mostrando el success antes de redirigir
+        // ⏳ Espera 2 segundos mostrando el mensaje antes de redirigir
         setTimeout(() => {
           navigate(`/goto-email?email=${encodeURIComponent(emailForRedirect)}`);
         }, 2000);
+      } else {
+        setError(response?.msg || "Registration failed");
       }
     } catch (err: any) {
-      const backendMsg = err.response?.data?.msg || err.response?.data?.message;
-      setError(backendMsg || 'User already exists');
+      setError(err.message || 'User already exists');
     } finally {
       setLoading(false);
     }
