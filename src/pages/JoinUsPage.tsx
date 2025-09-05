@@ -55,7 +55,7 @@ const JoinUsPage: React.FC = () => {
 
         // Espera breve para mostrar el mensaje
         setTimeout(() => {
-          navigate(`/verify-notice?email=${encodeURIComponent(emailForRedirect)}`);
+          navigate(`/goto-email?email=${encodeURIComponent(emailForRedirect)}`);
         }, 1500);
       }
     } catch (err: any) {
