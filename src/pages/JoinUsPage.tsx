@@ -44,6 +44,8 @@ const JoinUsPage: React.FC = () => {
       setLoading(true);
       const response = await registerUser({ name: fullName, email, password });
 
+      console.log("Register response:", response);
+
       if (response?.status === 201) {
         setSuccess('Account created! Please check your email to verify your account.');
         const emailForRedirect = email;
@@ -53,10 +55,10 @@ const JoinUsPage: React.FC = () => {
         setPassword('');
         setConfirmPassword('');
 
-        // Espera breve para mostrar el mensaje
+        // Espera 2 segundos mostrando el success antes de redirigir
         setTimeout(() => {
           navigate(`/goto-email?email=${encodeURIComponent(emailForRedirect)}`);
-        }, 1500);
+        }, 2000);
       }
     } catch (err: any) {
       const backendMsg = err.response?.data?.msg || err.response?.data?.message;
