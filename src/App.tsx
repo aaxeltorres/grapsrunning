@@ -12,6 +12,8 @@ import HomePage from './pages/HomePage';
 import VerifyPage from './pages/VerifyPage';
 import VerifyNoticePage from "./pages/VerifyNoticePage";
 import AiMikePage from './pages/AiMikePage';
+import GoToEmailPage from "./pages/GoToEmailPage";
+
 
 import { citySpots, cities } from './data/citySpots';
 
@@ -105,6 +107,7 @@ function App() {
         <Route path="/joinus" element={<JoinUsPage setCurrentPage={() => {}} />} />
         <Route path="/signin" element={<SignInPage setCurrentPage={() => {}} />} />
         <Route path="/about" element={<AboutUsPage setCurrentPage={() => {}} />} />
+        <Route path="/goto-email" element={<GoToEmailPage />} />
         <Route path="/best-spots" element={
           <BestSpotsPage
             setCurrentPage={() => {}}
