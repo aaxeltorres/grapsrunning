@@ -98,6 +98,8 @@ function App() {
         <Route path="/" element={<HomeWrapper />} />
         <Route path="/ai-mike" element={<AiMikePage />} />
         <Route path="/verify-notice" element={<VerifyNoticePage />} />
+        <Route path="/verify/success" element={<VerifyNoticePage type="success" />} />
+        <Route path="/verify/error" element={<VerifyNoticePage type="error" />} />
         <Route path="/reviews" element={<ReviewsPage setCurrentPage={() => {}} />} />
         <Route path="/events" element={<EventsPage setCurrentPage={() => {}} />} />
         <Route path="/joinus" element={<JoinUsPage setCurrentPage={() => {}} />} />
