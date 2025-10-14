@@ -65,7 +65,7 @@ const HomePage: React.FC<Props> = ({
   }, [errorMessage, errorTriggered, resetErrorTrigger]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-stone-100 via-stone-100 to-stone-300">
       {/* Top Banner */}
       <div className="bg-gray-100 py-2 px-4 text-center text-sm">
         <p className="text-gray-700">
