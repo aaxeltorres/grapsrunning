@@ -20,7 +20,7 @@ const AboutUsPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-amber-100 to-amber-100">
       {/* HEADER */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,52 +60,54 @@ const AboutUsPage: React.FC = () => {
               <Bot className="h-16 w-16 text-cyan-500 mr-4" />
               <h1 className="text-5xl font-bold text-gray-900">About Us</h1>
             </div>
-            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-3xl p-8 mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
                 Welcome to Graps Running, ready to start your change with us?
               </h2>
-            </div>
           </div>
 
           {/* Who We Are Section */}
-          <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
-            <div className="flex items-center mb-6">
-              <Users className="h-8 w-8 text-cyan-500 mr-4" />
-              <h3 className="text-2xl font-bold text-gray-900">Who We Are?</h3>
+          <div className="bg-gradient-to-r from-cyan-300 to-blue-500 rounded-3xl p-[1px] shadow-lg mb-12">
+            <div className="bg-white rounded-3xl p-8">
+              <div className="flex items-center mb-6">
+                <Users className="h-8 w-8 text-cyan-500 mr-4" />
+                <h3 className="text-2xl font-bold text-gray-900">Who We Are?</h3>
+              </div>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Graps Running is a revolutionary project focused on physical and mental well-being through sports and AI...
+              </p>
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              Graps Running is a revolutionary project focused on physical and mental well-being through sports and AI...
-            </p>
           </div>
 
           {/* Our Goal Section */}
-          <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
-            <div className="flex items-center mb-6">
-              <Target className="h-8 w-8 text-blue-500 mr-4" />
-              <h3 className="text-2xl font-bold text-gray-900">What Is Our Goal?</h3>
-            </div>
-            <div className="space-y-6">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                At Graps Running, our goal is to help you achieve your perfect transformation...
-              </p>
-
-              <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6">
-                <h4 className="text-xl font-semibold text-gray-900 mb-4">We Can Help You With:</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center"><Zap className="h-5 w-5 text-cyan-500 mr-3" />Physical transformation</div>
-                  <div className="flex items-center"><Trophy className="h-5 w-5 text-cyan-500 mr-3" />Race preparation</div>
-                  <div className="flex items-center"><Activity className="h-5 w-5 text-cyan-500 mr-3" />Improving running form</div>
-                  <div className="flex items-center"><Play className="h-5 w-5 text-cyan-500 mr-3" />Starting a sport routine</div>
-                  <div className="flex items-center"><Star className="h-5 w-5 text-cyan-500 mr-3" />Nutrition guidance</div>
-                  <div className="flex items-center"><Star className="h-5 w-5 text-cyan-500 mr-3" />Personal best improvement</div>
-                  <div className="flex items-center"><Thermometer className="h-5 w-5 text-cyan-500 mr-3" />Injury rehabilitation</div>
-                  <div className="flex items-center"><Brain className="h-5 w-5 text-cyan-500 mr-3" />Mental wellness</div>
-                </div>
+          <div className="bg-gradient-to-r from-cyan-300 to-blue-500 rounded-3xl p-[1px] shadow-lg mb-12">
+            <div className="bg-white rounded-3xl p-8">
+              <div className="flex items-center mb-6">
+                <Target className="h-8 w-8 text-blue-500 mr-4" />
+                <h3 className="text-2xl font-bold text-gray-900">What Is Our Goal?</h3>
               </div>
+              <div className="space-y-6">
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  At Graps Running, our goal is to help you achieve your perfect transformation...
+                </p>
 
-              <p className="text-lg text-gray-700 leading-relaxed">
-                We want your experience with us to be effective, transformative...
-              </p>
+                <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6">
+                  <h4 className="text-xl font-semibold text-gray-900 mb-4">We Can Help You With:</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center"><Zap className="h-5 w-5 text-cyan-500 mr-3" />Physical transformation</div>
+                    <div className="flex items-center"><Trophy className="h-5 w-5 text-cyan-500 mr-3" />Race preparation</div>
+                    <div className="flex items-center"><Activity className="h-5 w-5 text-cyan-500 mr-3" />Improving running form</div>
+                    <div className="flex items-center"><Play className="h-5 w-5 text-cyan-500 mr-3" />Starting a sport routine</div>
+                    <div className="flex items-center"><Star className="h-5 w-5 text-cyan-500 mr-3" />Nutrition guidance</div>
+                    <div className="flex items-center"><Star className="h-5 w-5 text-cyan-500 mr-3" />Personal best improvement</div>
+                    <div className="flex items-center"><Thermometer className="h-5 w-5 text-cyan-500 mr-3" />Injury rehabilitation</div>
+                    <div className="flex items-center"><Brain className="h-5 w-5 text-cyan-500 mr-3" />Mental wellness</div>
+                  </div>
+                </div>
+
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  We want your experience with us to be effective, transformative...
+                </p>
+              </div>
             </div>
           </div>
 
