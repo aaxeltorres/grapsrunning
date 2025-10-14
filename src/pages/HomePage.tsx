@@ -65,9 +65,9 @@ const HomePage: React.FC<Props> = ({
   }, [errorMessage, errorTriggered, resetErrorTrigger]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-100 via-stone-100 to-stone-300">
+    <div className="min-h-screen bg-white">
       {/* Top Banner */}
-      <div className="bg-gray-100 py-2 px-4 text-center text-sm">
+      <div className="bg-gray-200 py-2 px-4 text-center text-sm">
         <p className="text-gray-700">
           Train smarter with AI Coach Mike. Personalized coaching for every runner.
         </p>
@@ -201,7 +201,7 @@ const HomePage: React.FC<Props> = ({
       </section>
 
         {/* Features Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-stone-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
                 <h2 className="text-4xl font-bold text-gray-900 mb-4">Your AI-Powered Running Companion</h2>
@@ -244,7 +244,7 @@ const HomePage: React.FC<Props> = ({
         </section>
 
         {/* AI Coach Mike Section */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-stone-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div>
