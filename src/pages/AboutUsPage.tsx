@@ -20,7 +20,7 @@ const AboutUsPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-100 via-stone-200 to-stone-300">
+    <div className="min-h-screen bg-gradient-to-b from-stone-100 via-stone-100 to-stone-300">
       {/* HEADER */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
