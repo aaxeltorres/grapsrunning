@@ -66,13 +66,6 @@ const HomePage: React.FC<Props> = ({
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Top Banner */}
-      <div className="bg-gray-200 py-2 px-4 text-center text-sm">
-        <p className="text-gray-700">
-          Train smarter with AI Coach Mike. Personalized coaching for every runner.
-        </p>
-      </div>
-
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         {/* Top Navigation */}
