@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import AiMikeWidget from '../components/AiMikeWidget';
 
 declare global {
   interface Window {
@@ -9,84 +8,77 @@ declare global {
   }
 }
 
-// Altura del header (tu Tailwind header h-16 ≈ 64px)
-const HEADER_PX = 64;
+const HEADER_PX = 64; // ajustá si tu header es más alto/bajo
 
 const AiMikePage: React.FC = () => {
   const navigate = useNavigate();
 
-  // Etiqueta al <body> para aplicar estilos scoped a esta página
+  // Marca body para estilos scoped
   useEffect(() => {
     document.body.classList.add('ai-mike-page');
-    return () => {
-      document.body.classList.remove('ai-mike-page');
-    };
+    return () => document.body.classList.remove('ai-mike-page');
   }, []);
 
-  // Inyecta estilos para: ocultar launcher y forzar full-screen del chat
+  // Inyecta estilos full-screen y oculta el launcher SOLO en /ai-mike
   useEffect(() => {
     const STYLE_ID = 'ai-mike-vf-fullscreen-styles';
-    if (document.getElementById(STYLE_ID)) return;
-
-    const style = document.createElement('style');
-    style.id = STYLE_ID;
-    style.innerHTML = `
-      /* Scope sólo cuando estamos en AiMikePage */
-      body.ai-mike-page .vfrc-launcher { 
-        display: none !important; 
-      }
-      /* Contenedor principal del widget (Voiceflow "widget-next" usa prefijo vfrc-) */
-      body.ai-mike-page .vfrc-widget {
-        position: fixed !important;
-        inset: ${HEADER_PX}px 0 0 0 !important; /* top, right, bottom, left */
-        width: 100% !important;
-        height: calc(100vh - ${HEADER_PX}px) !important;
-        max-height: none !important;
-        max-width: none !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        z-index: 60 !important; /* sobre el contenido, debajo de un modal si lo hubiera */
-      }
-      /* Asegura que el contenido del chat ocupe todo el alto */
-      body.ai-mike-page .vfrc-chat, 
-      body.ai-mike-page .vfrc-chat--open, 
-      body.ai-mike-page .vfrc-widget__chat {
-        height: 100% !important;
-      }
-    `;
-    document.head.appendChild(style);
-
+    if (!document.getElementById(STYLE_ID)) {
+      const style = document.createElement('style');
+      style.id = STYLE_ID;
+      style.innerHTML = `
+        body.ai-mike-page .vfrc-launcher { display: none !important; }
+        body.ai-mike-page .vfrc-widget {
+          position: fixed !important;
+          inset: ${HEADER_PX}px 0 0 0 !important; /* top right bottom left */
+          width: 100% !important;
+          height: calc(100vh - ${HEADER_PX}px) !important;
+          max-width: none !important;
+          max-height: none !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          z-index: 60 !important;
+        }
+        body.ai-mike-page .vfrc-chat,
+        body.ai-mike-page .vfrc-chat--open,
+        body.ai-mike-page .vfrc-widget__chat {
+          height: 100% !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
     return () => {
       const n = document.getElementById(STYLE_ID);
-      if (n && n.parentNode) n.parentNode.removeChild(n);
+      if (n?.parentNode) n.parentNode.removeChild(n);
     };
   }, []);
 
-  // Abre el chat automáticamente y reintenta si el SDK no cargó aún
+  // Abre el chat, deduplica instancias, limpia al salir
   useEffect(() => {
     const tryOpen = () => {
-      try {
-        window.voiceflow?.chat?.open?.();
-      } catch {
-        /* noop */
-      }
-    };
-    tryOpen();
-    const id = setInterval(() => {
-      if (window.voiceflow?.chat?.open) {
-        window.voiceflow.chat.open();
-        clearInterval(id);
-      }
-    }, 250);
+      // elimina clones de widgets si los hubiera
+      const widgets = Array.from(document.querySelectorAll('.vfrc-widget'));
+      if (widgets.length > 1) widgets.slice(1).forEach(n => n.parentElement?.removeChild(n));
 
-    // Al salir de /ai-mike, cerramos el chat para volver al comportamiento normal
+      try { window.voiceflow?.chat?.open?.(); } catch {}
+
+      // a veces el botón "minimizado" conserva estado: forzamos abierto
+      const interval = setInterval(() => {
+        if (window.voiceflow?.chat?.open) {
+          window.voiceflow.chat.open();
+          // vuelvo a asegurar que no aparezcan clones
+          const ws = Array.from(document.querySelectorAll('.vfrc-widget'));
+          if (ws.length > 1) ws.slice(1).forEach(n => n.parentElement?.removeChild(n));
+          clearInterval(interval);
+        }
+      }, 250);
+
+      return () => clearInterval(interval);
+    };
+
+    const cleanup = tryOpen();
     return () => {
-      clearInterval(id);
-      try {
-        window.voiceflow?.chat?.close?.();
-      } catch {
-        /* noop */
-      }
+      try { window.voiceflow?.chat?.close?.(); } catch {}
+      if (typeof cleanup === 'function') cleanup();
     };
   }, []);
 
@@ -110,10 +102,7 @@ const AiMikePage: React.FC = () => {
         </div>
       </header>
 
-      {/* Montamos el loader del widget aquí por si el usuario entra directo a /ai-mike */}
-      <AiMikeWidget />
-
-      {/* El chat ocupa todo debajo del header; no mostramos nada más */}
+      {/* El chat ocupa todo el espacio debajo del header */}
       <main className="flex-1 bg-gray-50" />
     </div>
   );
