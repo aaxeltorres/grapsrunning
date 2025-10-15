@@ -10,49 +10,33 @@ const AiMikeWidget: React.FC = () => {
   useEffect(() => {
     const LOADER_ID = 'vf-widget-loader';
 
-    const loadVoiceflow = () => {
-      // Carga el widget Voiceflow
+    const ensureLoaded = () => {
       window.voiceflow?.chat?.load?.({
         verify: { projectID: '687ff9872dff7e89819d5cbf' },
         url: 'https://general-runtime.voiceflow.com',
         versionID: 'production',
         voice: { url: 'https://runtime-api.voiceflow.com' },
       });
-
-      // 🔹 Abre automáticamente el chat al cargar
-      const openChat = () => {
-        try {
-          window.voiceflow?.chat?.open?.();
-        } catch {
-          // Reintento en caso de que el widget tarde en inicializar
-          setTimeout(openChat, 500);
-        }
-      };
-      openChat();
+      // 👆 No auto-open aquí: el full-screen se maneja en AiMikePage
     };
 
-    // Evita duplicar scripts
     const existing = document.getElementById(LOADER_ID) as HTMLScriptElement | null;
     if (existing) {
-      if (window.voiceflow?.chat?.load) {
-        loadVoiceflow();
-      } else {
-        existing.addEventListener('load', loadVoiceflow, { once: true });
-      }
+      if (window.voiceflow?.chat?.load) ensureLoaded();
+      else existing.addEventListener('load', ensureLoaded, { once: true });
       return;
     }
 
-    // Inyecta el script del widget
     const script = document.createElement('script');
     script.id = LOADER_ID;
     script.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
     script.type = 'text/javascript';
     script.defer = true;
-    script.onload = loadVoiceflow;
+    script.onload = ensureLoaded;
     document.body.appendChild(script);
   }, []);
 
-  return null; // El widget flota, no se renderiza contenido visible
+  return null; // El widget es flotante, no renderiza nada visible
 };
 
 export default AiMikeWidget;
