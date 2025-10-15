@@ -8,77 +8,115 @@ declare global {
   }
 }
 
-const HEADER_PX = 64; // ajustá si tu header es más alto/bajo
+const HEADER_PX = 64; 
 
 const AiMikePage: React.FC = () => {
   const navigate = useNavigate();
 
-  // Marca body para estilos scoped
+  // scope de estilos sólo para esta página
   useEffect(() => {
     document.body.classList.add('ai-mike-page');
     return () => document.body.classList.remove('ai-mike-page');
   }, []);
 
-  // Inyecta estilos full-screen y oculta el launcher SOLO en /ai-mike
+  // full-screen + ocultar launcher
   useEffect(() => {
     const STYLE_ID = 'ai-mike-vf-fullscreen-styles';
-    if (!document.getElementById(STYLE_ID)) {
-      const style = document.createElement('style');
-      style.id = STYLE_ID;
-      style.innerHTML = `
-        body.ai-mike-page .vfrc-launcher { display: none !important; }
-        body.ai-mike-page .vfrc-widget {
-          position: fixed !important;
-          inset: ${HEADER_PX}px 0 0 0 !important; /* top right bottom left */
-          width: 100% !important;
-          height: calc(100vh - ${HEADER_PX}px) !important;
-          max-width: none !important;
-          max-height: none !important;
-          border-radius: 0 !important;
-          box-shadow: none !important;
-          z-index: 60 !important;
-        }
-        body.ai-mike-page .vfrc-chat,
-        body.ai-mike-page .vfrc-chat--open,
-        body.ai-mike-page .vfrc-widget__chat {
-          height: 100% !important;
-        }
-      `;
-      document.head.appendChild(style);
-    }
+    if (document.getElementById(STYLE_ID)) return;
+
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.innerHTML = `
+      /* Ocultar cualquier launcher/flotante del widget en esta página */
+      body.ai-mike-page .vfrc-launcher,
+      body.ai-mike-page [class*="launcher"],
+      body.ai-mike-page button[aria-label="Open chat"],
+      body.ai-mike-page [data-testid="launcher"] {
+        display: none !important;
+      }
+
+      /* Forzar el contenedor del chat a ocupar toda el área visible bajo el header */
+      body.ai-mike-page .vfrc-widget,
+      body.ai-mike-page [class*="vfrc-widget"] {
+        position: fixed !important;
+        top: ${HEADER_PX}px !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: calc(100vh - ${HEADER_PX}px) !important;
+        max-width: none !important;
+        max-height: none !important;
+        transform: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        z-index: 60 !important;
+      }
+
+      /* Asegurar que el contenido interno también estire al 100% */
+      body.ai-mike-page .vfrc-widget__chat,
+      body.ai-mike-page .vfrc-chat,
+      body.ai-mike-page .vfrc-chat--open,
+      body.ai-mike-page [class*="widget__chat"] {
+        height: 100% !important;
+      }
+    `;
+    document.head.appendChild(style);
+
     return () => {
       const n = document.getElementById(STYLE_ID);
       if (n?.parentNode) n.parentNode.removeChild(n);
     };
   }, []);
 
-  // Abre el chat, deduplica instancias, limpia al salir
   useEffect(() => {
-    const tryOpen = () => {
-      // elimina clones de widgets si los hubiera
-      const widgets = Array.from(document.querySelectorAll('.vfrc-widget'));
-      if (widgets.length > 1) widgets.slice(1).forEach(n => n.parentElement?.removeChild(n));
-
-      try { window.voiceflow?.chat?.open?.(); } catch {}
-
-      // a veces el botón "minimizado" conserva estado: forzamos abierto
-      const interval = setInterval(() => {
-        if (window.voiceflow?.chat?.open) {
-          window.voiceflow.chat.open();
-          // vuelvo a asegurar que no aparezcan clones
-          const ws = Array.from(document.querySelectorAll('.vfrc-widget'));
-          if (ws.length > 1) ws.slice(1).forEach(n => n.parentElement?.removeChild(n));
-          clearInterval(interval);
-        }
-      }, 250);
-
-      return () => clearInterval(interval);
+    // función que aplica estilos inline directamente al nodo (gana a la mayoría de reglas)
+    const fitWidgetInline = () => {
+      const widget = document.querySelector('.vfrc-widget') as HTMLElement
+        || (document.querySelector('[class*="vfrc-widget"]') as HTMLElement);
+      if (widget) {
+        widget.style.position = 'fixed';
+        widget.style.top = `${HEADER_PX}px`;
+        widget.style.right = '0';
+        widget.style.bottom = '0';
+        widget.style.left = '0';
+        widget.style.width = '100%';
+        widget.style.height = `calc(100vh - ${HEADER_PX}px)`;
+        widget.style.maxWidth = 'none';
+        widget.style.maxHeight = 'none';
+        widget.style.transform = 'none';
+        widget.style.borderRadius = '0';
+        widget.style.boxShadow = 'none';
+        widget.style.margin = '0';
+        widget.style.zIndex = '60';
+      }
     };
 
-    const cleanup = tryOpen();
+    // abre el chat y reintenta hasta que esté listo
+    const openInterval = setInterval(() => {
+      try {
+        if (window.voiceflow?.chat?.open) {
+          window.voiceflow.chat.open();
+          fitWidgetInline();
+        }
+      } catch { /* noop */ }
+    }, 250);
+
+    // Observa el DOM por si el widget se re-renderiza y vuelve a ponerse chico
+    const obs = new MutationObserver(() => fitWidgetInline());
+    obs.observe(document.body, { childList: true, subtree: true });
+
+    // Reaplicar al cambiar el tamaño de la ventana
+    const onResize = () => fitWidgetInline();
+    window.addEventListener('resize', onResize);
+
+    // limpieza al salir
     return () => {
-      try { window.voiceflow?.chat?.close?.(); } catch {}
-      if (typeof cleanup === 'function') cleanup();
+      clearInterval(openInterval);
+      try { window.voiceflow?.chat?.close?.(); } catch { /* noop */ }
+      obs.disconnect();
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
@@ -102,7 +140,7 @@ const AiMikePage: React.FC = () => {
         </div>
       </header>
 
-      {/* El chat ocupa todo el espacio debajo del header */}
+      {/* El chat ocupa todo debajo del header; no se renderiza nada más aquí */}
       <main className="flex-1 bg-gray-50" />
     </div>
   );
