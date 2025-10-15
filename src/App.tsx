@@ -13,7 +13,7 @@ import VerifyPage from './pages/VerifyPage';
 import VerifyNoticePage from "./pages/VerifyNoticePage";
 import AiMikePage from './pages/AiMikePage';
 import GoToEmailPage from "./pages/GoToEmailPage";
-
+import AiMikeWidget from './components/AiMikeWidget'; // ✅ agregado
 
 import { citySpots, cities } from './data/citySpots';
 
@@ -107,6 +107,7 @@ function App() {
         <Route path="/joinus" element={<JoinUsPage setCurrentPage={() => {}} />} />
         <Route path="/signin" element={<SignInPage setCurrentPage={() => {}} />} />
         <Route path="/about" element={<AboutUsPage setCurrentPage={() => {}} />} />
+        <Route path="/best-spots" element={<BestSpotsPage />} />
         <Route path="/goto-email" element={<GoToEmailPage />} />
         <Route path="/best-spots" element={
           <BestSpotsPage
@@ -120,6 +121,9 @@ function App() {
         } />
         <Route path="/verify/:token" element={<VerifyPage onBack={() => window.history.back()} />} />
       </Routes>
+
+      {/* ✅ Voiceflow widget global (solo una vez) */}
+      <AiMikeWidget />
     </Router>
   );
 }
